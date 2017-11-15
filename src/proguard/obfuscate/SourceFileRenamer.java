@@ -69,11 +69,21 @@ implements   ClassVisitor,
 
     public void visitSourceFileAttribute(Clazz clazz, SourceFileAttribute sourceFileAttribute)
     {
-        // Fix the source file attribute.
+        String sourceFile = clazz.getString(sourceFileAttribute.u2sourceFileIndex);
+        if (!(clazz.getName() + ".java").endsWith(sourceFile)) // 排除类名未变化的类
+            sourceFile = encrypt(sourceFile);
         sourceFileAttribute.u2sourceFileIndex =
-            new ConstantPoolEditor((ProgramClass)clazz).addUtf8Constant(newSourceFileAttribute);
+                new ConstantPoolEditor((ProgramClass) clazz).addUtf8Constant(sourceFile);
     }
 
+    /**
+     * 由你们自行设计加密算法
+     */
+    private static String encrypt(String text) {
+        if (!text.toLowerCase().endsWith(".java"))
+            return text;
+        return text.substring(0, text.length() - 5) + "-encrypt.java";
+    }
 
     public void visitSourceDirAttribute(Clazz clazz, SourceDirAttribute sourceDirAttribute)
     {

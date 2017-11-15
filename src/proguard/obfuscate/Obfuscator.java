@@ -199,7 +199,7 @@ public class Obfuscator
                                 configuration.allowAccessModification));
 
         // Come up with new names for all class members.
-        NameFactory nameFactory = new SimpleNameFactory();
+        NameFactory nameFactory = new ONameFactory();
 
         if (configuration.obfuscationDictionary != null)
         {
@@ -304,7 +304,7 @@ public class Obfuscator
         // Some class members may have ended up with conflicting names.
         // Come up with new, globally unique names for them.
         NameFactory specialNameFactory =
-            new SpecialNameFactory(new SimpleNameFactory());
+            new SpecialNameFactory(new ONameFactory());
 
         // Collect a map of special names to avoid
         // [descriptor - new name - old name].
@@ -464,10 +464,10 @@ public class Obfuscator
             new BridgeMethodFixer()));
 
         // Rename the source file attributes, if requested.
-        if (configuration.newSourceFileAttribute != null)
-        {
+//        if (configuration.newSourceFileAttribute != null)
+//        {
             programClassPool.classesAccept(new SourceFileRenamer(configuration.newSourceFileAttribute));
-        }
+//        }
 
         // Remove unused constants.
         programClassPool.classesAccept(

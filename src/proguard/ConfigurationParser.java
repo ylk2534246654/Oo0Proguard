@@ -196,7 +196,11 @@ public class ConfigurationParser
             else if (ConfigurationConstants.FLATTEN_PACKAGE_HIERARCHY_OPTION                 .startsWith(nextWord)) configuration.flattenPackageHierarchy          = ClassUtil.internalClassName(parseOptionalArgument());
             else if (ConfigurationConstants.REPACKAGE_CLASSES_OPTION                         .startsWith(nextWord)) configuration.repackageClasses                 = ClassUtil.internalClassName(parseOptionalArgument());
             else if (ConfigurationConstants.DEFAULT_PACKAGE_OPTION                           .startsWith(nextWord)) configuration.repackageClasses                 = ClassUtil.internalClassName(parseOptionalArgument());
-            else if (ConfigurationConstants.KEEP_ATTRIBUTES_OPTION                           .startsWith(nextWord)) configuration.keepAttributes                   = parseCommaSeparatedList("attribute name", true, true, false, false, true, false, false, false, configuration.keepAttributes);
+            else if (ConfigurationConstants.KEEP_ATTRIBUTES_OPTION                           .startsWith(nextWord)) {
+                configuration.keepAttributes = parseCommaSeparatedList("attribute name", true, true, false, false, true, false, false, false, configuration.keepAttributes);
+                configuration.keepAttributes.remove("InnerClasses");
+                configuration.keepAttributes.remove("EnclosingMethod");
+            }
             else if (ConfigurationConstants.KEEP_PARAMETER_NAMES_OPTION                      .startsWith(nextWord)) configuration.keepParameterNames               = parseNoArgument(true);
             else if (ConfigurationConstants.RENAME_SOURCE_FILE_ATTRIBUTE_OPTION              .startsWith(nextWord)) configuration.newSourceFileAttribute           = parseOptionalArgument();
             else if (ConfigurationConstants.ADAPT_CLASS_STRINGS_OPTION                       .startsWith(nextWord)) configuration.adaptClassStrings                = parseCommaSeparatedList("class name", true, true, false, false, true, false, true, false, configuration.adaptClassStrings);

@@ -122,7 +122,7 @@ implements   ClassVisitor,
             repackageClasses += ClassConstants.PACKAGE_SEPARATOR;
         }
 
-        this.useMixedCaseClassNames  = useMixedCaseClassNames;
+        this.useMixedCaseClassNames  = true;
         this.keepPackageNamesMatcher = keepPackageNames == null ? null :
             new ListParser(new FileNameParser()).parse(keepPackageNames);
         this.flattenPackageHierarchy = flattenPackageHierarchy;
@@ -408,7 +408,7 @@ implements   ClassVisitor,
         {
             // We haven't seen packages in this superpackage before. Create
             // a new name factory for them.
-            packageNameFactory = new SimpleNameFactory(useMixedCaseClassNames);
+            packageNameFactory = new ONameFactory();
             if (this.packageNameFactory != null)
             {
                 packageNameFactory =
@@ -458,7 +458,7 @@ implements   ClassVisitor,
         {
             // We haven't seen classes in this package before.
             // Create a new name factory for them.
-            classNameFactory = new SimpleNameFactory(useMixedCaseClassNames);
+            classNameFactory = new ONameFactory();
             if (this.classNameFactory != null)
             {
                 classNameFactory =
